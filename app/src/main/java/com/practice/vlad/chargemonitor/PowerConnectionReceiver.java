@@ -8,13 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.BatteryManager;
+import android.widget.Toast;
 
 public class PowerConnectionReceiver extends BroadcastReceiver {
 
     static final int NOTIFICATION_ID = 932749823;
     static final int MAXIMUM_BATTERY_PERCENTAGE = 1;
-    static final int LED_ON_TIME = 10000;
-    static final int LED_OFF_TIME = 30;
+    static final int LED_ON_TIME = 999999999;
+    static final int LED_OFF_TIME = 1;
 
     private NotificationManager mNotificationManager;
 
