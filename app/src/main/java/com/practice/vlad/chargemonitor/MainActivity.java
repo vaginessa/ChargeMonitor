@@ -14,8 +14,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //TODO fix this
-        registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     @Override

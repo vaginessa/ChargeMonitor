@@ -25,28 +25,22 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        context.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL;
-
-        int chargePlug = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+        Intent batteryChangedIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int plugged = batteryChangedIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
 
         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         float batteryPct = level / (float) scale;
 
-        if (isCharging) {
+        if (plugged > 0) {
             int color = Color.RED;
             if (batteryPct == MAXIMUM_BATTERY_PERCENTAGE) {
                 color = Color.GREEN;
             }
             turnOnLight(context, color);
         } else {
-            turnOffLight();
+            turnOffLight(context);
         }
     }
 
@@ -60,9 +54,8 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
         mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
 
-    private void turnOffLight() {
-        if(mNotificationManager != null) {
-            mNotificationManager.cancel(NOTIFICATION_ID);
-        }
+    private void turnOffLight(Context context) {
+        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(NOTIFICATION_ID);
     }
 }
