@@ -2,14 +2,12 @@ package com.practice.vlad.chargemonitor;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.BatteryManager;
-import android.widget.Toast;
 
 public class PowerConnectionReceiver extends BroadcastReceiver {
 
@@ -28,8 +26,8 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
         Intent batteryChangedIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         int plugged = batteryChangedIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
 
-        int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        int level = batteryChangedIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryChangedIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         float batteryPct = level / (float) scale;
 
