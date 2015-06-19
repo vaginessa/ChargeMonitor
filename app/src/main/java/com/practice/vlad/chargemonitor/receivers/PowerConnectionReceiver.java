@@ -1,4 +1,4 @@
-package com.practice.vlad.chargemonitor;
+package com.practice.vlad.chargemonitor.receivers;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.BatteryManager;
 import android.widget.Toast;
+
+import com.practice.vlad.chargemonitor.managers.SettingsManager;
 
 public class PowerConnectionReceiver extends BroadcastReceiver {
 
@@ -33,9 +35,9 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
         float batteryPct = level / (float) scale;
 
         if (plugged > 0) {
-            int color = Color.RED;
+            int color = SettingsManager.getInstance(context).getLedChargingColor();
             if (batteryPct == MAXIMUM_BATTERY_PERCENTAGE) {
-                color = Color.GREEN;
+                color = SettingsManager.getInstance(context).getLedChargedColor();;
             }
             turnOnLight(context, color);
         } else {

@@ -2,4 +2,6 @@
     <string name="app_name">Charge monitor</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="charging_color">Charging Color</string>
+    <string name="charged_color">Charged Color</string>
 </resources>
