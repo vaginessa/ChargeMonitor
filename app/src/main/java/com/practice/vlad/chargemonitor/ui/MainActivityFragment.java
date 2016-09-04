@@ -7,15 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.practice.vlad.chargemonitor.R;
 import com.practice.vlad.chargemonitor.helpers.Color;
 import com.practice.vlad.chargemonitor.managers.SettingsManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -33,6 +30,7 @@ public class MainActivityFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_main, container, false);
         initChargingColor(layout);
         initChargedColor(layout);
+        initChargePercentagePicker(layout);
         wasCreated = true;
         return layout;
     }
@@ -81,6 +79,19 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+    }
+
+    private void initChargePercentagePicker(View layout) {
+        NumberPicker percentageNumberPicker = (NumberPicker) layout.findViewById(R.id.npChargePercentage);
+        percentageNumberPicker.setMaxValue(100);
+        percentageNumberPicker.setMinValue(1);
+        percentageNumberPicker.setValue(SettingsManager.getInstance(getActivity()).getLowBatteryWarningThreshold());
+        percentageNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                SettingsManager.getInstance(getActivity()).saveLowBatteryWarningThreshold(i);
             }
         });
     }

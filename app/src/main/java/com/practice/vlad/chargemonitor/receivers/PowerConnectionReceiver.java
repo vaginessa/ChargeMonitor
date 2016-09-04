@@ -6,15 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.BatteryManager;
-import android.widget.Toast;
+import android.support.v4.app.NotificationCompat;
 
+import com.practice.vlad.chargemonitor.R;
 import com.practice.vlad.chargemonitor.managers.SettingsManager;
 
 public class PowerConnectionReceiver extends BroadcastReceiver {
 
     static final int NOTIFICATION_ID = 932749823;
+    static final int NOTIFICATION_ID_CHARGE_SOUND = 932749821;
     static final int MAXIMUM_BATTERY_PERCENTAGE = 1;
     static final int LED_ON_TIME = 999999999;
     static final int LED_OFF_TIME = 1;
@@ -43,6 +45,27 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
         } else {
             turnOffLight(context);
         }
+        if (100 * batteryPct <= SettingsManager.getInstance(context).getLowBatteryWarningThreshold()) {
+            showLowBatteryNotification(context, (int) (100 * batteryPct));
+        } else {
+            hideLowBatteryNotification(context);
+        }
+    }
+
+    private void showLowBatteryNotification(Context context, int batteryPct) {
+        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.abc_btn_radio_material)
+                        .setContentTitle(context.getResources().getString(R.string.low_battery_warning_title))
+                        .setContentText(context.getResources().getString(R.string.low_battery_warning_content) + batteryPct)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        mNotificationManager.notify(NOTIFICATION_ID_CHARGE_SOUND, mBuilder.build());
+    }
+
+    private void hideLowBatteryNotification(Context context) {
+        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(NOTIFICATION_ID_CHARGE_SOUND);
     }
 
     private void turnOnLight(Context context, int color) {

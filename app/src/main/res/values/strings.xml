@@ -4,4 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="charging_color">Charging Color</string>
     <string name="charged_color">Charged Color</string>
+    <string name="low_battery_warning_threshold">Low Battery Warning Threshold</string>
+    <string name="low_battery_warning_title">Low Battery</string>
+    <string name="low_battery_warning_content">Current charge: </string>
 </resources>
