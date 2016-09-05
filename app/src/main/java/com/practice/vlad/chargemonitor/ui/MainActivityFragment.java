@@ -37,7 +37,7 @@ public class MainActivityFragment extends Fragment {
 
     private void initChargingColor(View layout) {
         Spinner spinnerChargingColor = (Spinner) layout.findViewById(R.id.spChargingColor);
-        spinnerChargingColor.setAdapter(new ArrayAdapter<Color>(getActivity(), android.R.layout.simple_spinner_item, Color.values()));
+        spinnerChargingColor.setAdapter(new ArrayAdapter<Color>(getActivity(), android.R.layout.simple_spinner_dropdown_item, Color.values()));
         int color = SettingsManager.getInstance(getActivity()).getLedChargingColor();
         if(color == 0) {
             color = Color.RED.getValue();
@@ -61,7 +61,7 @@ public class MainActivityFragment extends Fragment {
 
     private void initChargedColor(View layout) {
         Spinner spinnerChargedColor = (Spinner) layout.findViewById(R.id.spChargedColor);
-        spinnerChargedColor.setAdapter(new ArrayAdapter<Color>(getActivity(), android.R.layout.simple_spinner_item, Color.values()));
+        spinnerChargedColor.setAdapter(new ArrayAdapter<Color>(getActivity(), android.R.layout.simple_spinner_dropdown_item, Color.values()));
         int color = SettingsManager.getInstance(getActivity()).getLedChargedColor();
         if(color == 0) {
             color = Color.GREEN.getValue();

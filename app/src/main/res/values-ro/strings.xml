@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Monitor încărcare</string>
+    <string name="action_settings">Setări</string>
+    <string name="charging_color">Culoare încărcare</string>
+    <string name="charged_color">Culoare încărcat</string>
+    <string name="low_battery_warning_threshold">Prag de avertizare baterie:</string>
+    <string name="low_battery_warning_title">Baterie slabă</string>
+    <string name="low_battery_warning_content">Încărcare curentă: </string>
+</resources>
