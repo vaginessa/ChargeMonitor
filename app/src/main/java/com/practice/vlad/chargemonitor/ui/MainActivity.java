@@ -1,11 +1,15 @@
 package com.practice.vlad.chargemonitor.ui;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.practice.vlad.chargemonitor.managers.SettingsManager;
 import com.practice.vlad.chargemonitor.services.BatteryService;
 import com.practice.vlad.chargemonitor.R;
 
@@ -38,5 +42,19 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
+    {
+        if (resultCode == Activity.RESULT_OK && requestCode == MainActivityFragment.SOUND_PICKER_ACTIVITY_CODE)
+        {
+            Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            if (uri != null)
+            {
+                SettingsManager.getInstance(this).saveNotificationSoundRingtoneUri(uri.toString());
+            }
+        }
     }
 }

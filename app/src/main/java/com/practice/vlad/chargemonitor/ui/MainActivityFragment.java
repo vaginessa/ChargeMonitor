@@ -1,5 +1,9 @@
 package com.practice.vlad.chargemonitor.ui;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 
@@ -14,11 +21,16 @@ import com.practice.vlad.chargemonitor.R;
 import com.practice.vlad.chargemonitor.helpers.Color;
 import com.practice.vlad.chargemonitor.managers.SettingsManager;
 
+import java.util.Set;
+
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
+
+    public static final int SOUND_PICKER_ACTIVITY_CODE = 5;
+
     private boolean wasCreated = false;
 
     public MainActivityFragment() {
@@ -31,6 +43,9 @@ public class MainActivityFragment extends Fragment {
         initChargingColor(layout);
         initChargedColor(layout);
         initChargePercentagePicker(layout);
+        initNotificationSoundChooser(layout);
+        initNotificationVibrate(layout);
+        initNotificationPersistent(layout);
         wasCreated = true;
         return layout;
     }
@@ -95,4 +110,41 @@ public class MainActivityFragment extends Fragment {
             }
         });
     }
+
+    private void initNotificationSoundChooser(View layout) {
+        Button btnNotificationSound = (Button) layout.findViewById(R.id.btnChooseNotificationSound);
+        btnNotificationSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getActivity().getResources().getString(R.string.ringtone_chooser_title));
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, Uri.parse(SettingsManager.getInstance(getActivity()).getNotificationSoundUri()));
+                getActivity().startActivityForResult(intent, SOUND_PICKER_ACTIVITY_CODE);
+            }
+        });
+    }
+
+    private void initNotificationVibrate(View layout) {
+        CheckBox cbNotificationVibration = (CheckBox) layout.findViewById(R.id.cbNotificationVibrate);
+        cbNotificationVibration.setChecked(SettingsManager.getInstance(getActivity()).getNotificationVibrate());
+        cbNotificationVibration.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SettingsManager.getInstance(getActivity()).saveNotificationVibrate(b);
+            }
+        });
+    }
+
+    private void initNotificationPersistent(View layout) {
+        CheckBox cbNotificationPersistent = (CheckBox) layout.findViewById(R.id.cbNotificationPersistent);
+        cbNotificationPersistent.setChecked(SettingsManager.getInstance(getActivity()).getNotificationPersistent());
+        cbNotificationPersistent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SettingsManager.getInstance(getActivity()).saveNotificationPersistent(b);
+            }
+        });
+    }
+
 }

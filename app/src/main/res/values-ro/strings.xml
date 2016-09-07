@@ -4,6 +4,11 @@
     <string name="charging_color">Culoare încărcare</string>
     <string name="charged_color">Culoare încărcat</string>
     <string name="low_battery_warning_threshold">Prag de avertizare baterie:</string>
+    <string name="notification_sound">Sunet de avertizare:</string>
+    <string name="notification_sound_browse">Răsfoiește</string>
     <string name="low_battery_warning_title">Baterie slabă</string>
     <string name="low_battery_warning_content">Încărcare curentă: </string>
+    <string name="ringtone_chooser_title">Selectare ton</string>
+    <string name="notification_vibrate">Vibrează</string>
+    <string name="notification_persistent">Notificare persistentă</string>
 </resources>
